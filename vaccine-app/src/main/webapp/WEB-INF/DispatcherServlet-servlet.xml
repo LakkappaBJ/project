@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan
+		base-package="com.xworkz.vaccine"></context:component-scan>
+
+	<bean
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" id="sessionFactory">
+		<property name="dataSource" ref="datasource"></property>
+		 <property name="annotatedClasses">
+			<value>com.xworkz.vaccine.entity.OtpEntity</value>
+		</property>
+	<property name="hibernateProperties">
+		<props>
+			<prop key="hibernate.show_sql">true</prop>
+			 <prop key="hibernate.format_sql">true</prop>
+			 <!--  <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop> -->
+		</props>
+	</property>
+
+	</bean>
+ 	<bean
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		id="datasource">
+
+		<constructor-arg name="url" value="${dburl}"></constructor-arg>
+		<constructor-arg name="username" value="${dbuser}">
+		</constructor-arg>
+		<constructor-arg name="password" value="${dbpassword}"></constructor-arg>
+		<property name="driverClassName" value="${driverClass}">
+		</property>
+	</bean>
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="/WEB-INF/database.properties"></property>
+	</bean> 
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<constructor-arg name="prefix" value="/WEB-INF/pages/"></constructor-arg>
+	<constructor-arg name="suffix" value=".jsp"></constructor-arg>
+	
+	</bean>
+	
+	<!-- <bean
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		id="datasource">
+		<constructor-arg name="url"
+			value="jdbc:mysql://localhost:3306/lucky"></constructor-arg>
+		<constructor-arg name="username" value="root"></constructor-arg>
+		<constructor-arg name="password" value="root"></constructor-arg>
+		<property name="driverClassName"
+			value="com.mysql.cj.jdbc.Driver"></property>
+	</bean> -->
+	
+	
+	<bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<property name="host" value="smtp-mail.outlook.com"></property>
+	<property name="port" value="587"></property>
+	<property name="username" value="lakkappabj007@outlook.com"></property>
+	<property name="password" value="Lakkappabj"></property>
+
+	<property name="javaMailProperties">
+		<props>
+			<prop key="mail.smtp.auth">true</prop>
+			<prop key="mail.smtp.starttls.enable">true</prop>
+			<prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+			<prop key="mail.debug">true</prop>
+		</props>
+	</property>
+</bean>
+</beans>
